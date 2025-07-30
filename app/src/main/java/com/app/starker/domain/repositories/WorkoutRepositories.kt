@@ -5,4 +5,8 @@ import com.google.firebase.firestore.DocumentReference
 
 interface WorkoutRepositories {
     suspend fun createWorkoutByUser(workout : WorkoutModel): DocumentReference;
+    suspend fun editWorkoutByUser(workoutId: String, updatedWorkout: WorkoutModel);
+    suspend fun deleteWorkoutByUser(workoutId: String);
+    suspend fun getEveryWorkoutByUser(): List<WorkoutModel>;
+    suspend fun getWorkoutById(workoutId: String): WorkoutModel?;
 }

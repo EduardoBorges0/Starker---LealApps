@@ -11,6 +11,7 @@ class AuthNetwork {
     private val auth = FirebaseAuth.getInstance()
     private val firestoreInstance = FirebaseFirestore.getInstance();
 
+
     suspend fun registerUser(email: String, password: String): AuthResult {
         return auth.createUserWithEmailAndPassword(email, password).await()
     }
@@ -31,15 +32,16 @@ class AuthNetwork {
         return auth.currentUser?.uid
     }
 
-    suspend fun createUserInFirestore(username: String, email: String): DocumentReference {
+    suspend fun createUserInFirestore(username: String, email: String, uid: String): DocumentReference {
         val user = UserModel(
             username = username,
             email = email,
             createdAt = System.currentTimeMillis()
         )
 
-        return firestoreInstance.collection("Users")
-            .add(user)
-            .await() // aguarda o resultado final, não retorna Task
+        val userRef = firestoreInstance.collection("Users").document(uid)
+        userRef.set(user).await() // grava os dados, espera a conclusão
+        return userRef             // retorna a referência do documento
     }
+
 }

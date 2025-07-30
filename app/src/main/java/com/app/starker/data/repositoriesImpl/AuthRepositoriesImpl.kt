@@ -33,8 +33,9 @@ class AuthRepositoriesImpl @Inject constructor(private val authNetwork: AuthNetw
 
     override suspend fun createUserInFirestore(
         username: String,
-        email: String
+        email: String,
+        uid: String
     ): DocumentReference {
-        return authNetwork.createUserInFirestore(username, email)
+        return authNetwork.createUserInFirestore(username, email, uid)
     }
 }

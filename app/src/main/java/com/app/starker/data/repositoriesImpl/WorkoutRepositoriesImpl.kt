@@ -11,4 +11,23 @@ class WorkoutRepositoriesImpl @Inject constructor(private val workoutNetwork: Wo
     override suspend fun createWorkoutByUser(workout: WorkoutModel): DocumentReference {
         return workoutNetwork.createWorkoutByUser(workout);
     }
+
+    override suspend fun editWorkoutByUser(
+        workoutId: String,
+        updatedWorkout: WorkoutModel
+    ) {
+        workoutNetwork.editWorkoutByUser(workoutId, updatedWorkout)
+    }
+
+    override suspend fun deleteWorkoutByUser(workoutId: String) {
+        workoutNetwork.deleteWorkoutByUser(workoutId)
+    }
+
+    override suspend fun getEveryWorkoutByUser(): List<WorkoutModel> {
+        return workoutNetwork.getEveryWorkoutByUser()
+    }
+
+    override suspend fun getWorkoutById(workoutId: String): WorkoutModel? {
+        return workoutNetwork.getWorkoutById(workoutId)
+    }
 }

@@ -9,5 +9,7 @@ interface AuthRepositories {
     fun logout()
     fun isUserLoggedIn(): Boolean
     fun getUserUid(): String?
-    suspend fun createUserInFirestore(username: String, email: String): DocumentReference
+    suspend fun createUserInFirestore(
+        username: String, email: String, uid: String
+    ): DocumentReference
 }
