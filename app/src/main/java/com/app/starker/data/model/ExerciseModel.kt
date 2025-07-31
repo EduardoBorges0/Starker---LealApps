@@ -1,4 +1,9 @@
 package com.app.starker.data.model
 
-class ExerciseModel {
-}
+import android.net.Uri
+
+data class ExerciseModel (
+    val name: String = "",
+    val image: String = "",
+    val observation: String = ""
+)

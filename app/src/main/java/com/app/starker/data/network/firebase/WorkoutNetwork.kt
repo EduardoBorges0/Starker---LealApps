@@ -12,7 +12,6 @@ class WorkoutNetwork {
     private val uid = FirebaseAuth.getInstance().uid ?: ""
 
     suspend fun createWorkoutByUser(workout: WorkoutModel): DocumentReference {
-        Log.d("UUID", "ESTE É O UUID $uid")
         val userRef = firestoreInstance.collection("Users").document(uid)
         val workoutRef = userRef.collection("Workout").document()
         workoutRef.set(workout).await()  // espera a gravação completar
@@ -41,8 +40,6 @@ class WorkoutNetwork {
             .collection("Workout")
             .get()
             .await()
-        Log.d("WORKOUT", "ESSES SÃO OS WORKOUT ${workoutCollection.documents.mapNotNull { it.toObject(WorkoutModel::class.java) }}")
-
         return workoutCollection.documents.mapNotNull { it.toObject(WorkoutModel::class.java) }
     }
 
