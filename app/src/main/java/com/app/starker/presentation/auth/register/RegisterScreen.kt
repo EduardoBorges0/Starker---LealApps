@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -48,16 +50,23 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
             }
         }
     }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Box(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
             modifier = Modifier
-                .height(200.dp)
-                .align(Alignment.TopCenter)
+                .verticalScroll(rememberScrollState())
+                .align(Alignment.Center)
         ) {
-            Text("Cadastrar", fontSize = 30.sp, modifier = Modifier.align(Alignment.BottomCenter))
-        }
-        Column(modifier = Modifier.align(Alignment.Center)) {
+            Text(
+                "Cadastrar",
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 50.dp)
+            )
+            Spacer(modifier = Modifier.height(80.dp))
             CustomTextField(
                 value = usernameField,
                 onValueChange = {
@@ -103,16 +112,19 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
             ) {
                 Text("Registrar")
             }
+            Spacer(modifier = Modifier.height(80.dp))
+            Text(
+                "Já tem conta? Entre por aqui",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 70.dp)
+                    .clickable {
+                        navHostController.navigate(AuthRoutes.LoginScreen.route)
+                    }
+            )
         }
-        Text(
-            "Já tem conta? Entre por aqui",
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 70.dp)
-                .clickable {
-                    navHostController.navigate(AuthRoutes.LoginScreen.route)
-                }
-        )
+
+
         if (isLoading) {
             LoadingOverview()
         }
