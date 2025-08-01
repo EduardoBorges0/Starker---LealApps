@@ -40,8 +40,8 @@ class AuthNetwork {
         )
 
         val userRef = firestoreInstance.collection("Users").document(uid)
-        userRef.set(user).await() // grava os dados, espera a conclusão
-        return userRef             // retorna a referência do documento
+        userRef.set(user).await()
+        return userRef
     }
 
 }

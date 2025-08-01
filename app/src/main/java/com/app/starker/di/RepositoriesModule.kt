@@ -1,6 +1,7 @@
 package com.app.starker.di
 
 import com.app.starker.data.network.firebase.AuthNetwork
+import com.app.starker.data.network.firebase.ExerciseNetwork
 import com.app.starker.data.network.firebase.WorkoutNetwork
 import com.app.starker.data.repositoriesImpl.AuthRepositoriesImpl
 import com.app.starker.data.repositoriesImpl.ExerciseRepositoriesImpl
@@ -31,7 +32,7 @@ object RepositoriesModule {
 
     @Provides
     @Singleton
-    fun providerExerciseRepositories(): ExerciseRepositories {
-        return ExerciseRepositoriesImpl();
+    fun providerExerciseRepositories(exerciseNetwork: ExerciseNetwork): ExerciseRepositories {
+        return ExerciseRepositoriesImpl(exerciseNetwork);
     }
 }

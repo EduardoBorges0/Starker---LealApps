@@ -44,13 +44,19 @@ android {
 
 dependencies {
     //Firebase Dependencies
-    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+
     //Hilt Dependencies
+    //noinspection UseTomlInstead
     implementation ("com.google.dagger:hilt-android:2.56.2")
-    ksp ("com.google.dagger:hilt-compiler:2.56.2")
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    ksp (libs.hilt.compiler)
+
+    //Navigation Dependencies
+    implementation("androidx.navigation:navigation-compose:2.9.3")
 
 
     implementation(libs.androidx.core.ktx)

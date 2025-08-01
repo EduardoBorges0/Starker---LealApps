@@ -14,7 +14,7 @@ class WorkoutNetwork {
     suspend fun createWorkoutByUser(workout: WorkoutModel): DocumentReference {
         val userRef = firestoreInstance.collection("Users").document(uid)
         val workoutRef = userRef.collection("Workout").document()
-        workoutRef.set(workout).await()  // espera a gravação completar
+        workoutRef.set(workout).await()
         return workoutRef
     }
 
@@ -23,7 +23,7 @@ class WorkoutNetwork {
             .document(uid)
             .collection("Workout")
             .document(workoutId)
-        workoutRef.set(updatedWorkout).await() // Sobrescreve o documento
+        workoutRef.set(updatedWorkout).await()
     }
 
     suspend fun deleteWorkoutByUser(workoutId: String) {
