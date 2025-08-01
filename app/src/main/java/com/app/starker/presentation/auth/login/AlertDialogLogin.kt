@@ -2,6 +2,8 @@ package com.app.starker.presentation.auth.login
 
 import androidx.compose.runtime.Composable
 import com.app.starker.presentation.common.view.AlertDialogComposable
+import androidx.compose.ui.res.stringResource
+import com.app.starker.R
 
 @Composable
 fun AlertDialogLogin(
@@ -12,40 +14,28 @@ fun AlertDialogLogin(
     isError: Boolean,
     onError: (Boolean) -> Unit
 ) {
-    if(isError){
+    if (isError) {
         AlertDialogComposable(
-            onConfirm = {
-                onError(false)
-            },
-            onDismiss = {
-                onError(false)
-            },
-            title = "Error",
-            message = "Algo deu errado!!"
+            onConfirm = { onError(false) },
+            onDismiss = { onError(false) },
+            title = stringResource(R.string.error_title),
+            message = stringResource(R.string.error_generic)
         )
     }
-    if(isAuthInvalid){
+    if (isAuthInvalid) {
         AlertDialogComposable(
-            onConfirm = {
-                onAuthInvalid(false)
-            },
-            onDismiss = {
-                onAuthInvalid(false)
-            },
-            title = "Error",
-            message = "Email ou senha não estão corretas!!"
+            onConfirm = { onAuthInvalid(false) },
+            onDismiss = { onAuthInvalid(false) },
+            title = stringResource(R.string.error_title),
+            message = stringResource(R.string.error_auth_invalid_msg)
         )
     }
-    if(isEmptyField){
+    if (isEmptyField) {
         AlertDialogComposable(
-            onConfirm = {
-                onEmptyField(false)
-            },
-            onDismiss = {
-                onEmptyField(false)
-            },
-            title = "Campos vazios",
-            message = "Preencha todos os campos!!"
+            onConfirm = { onEmptyField(false) },
+            onDismiss = { onEmptyField(false) },
+            title = stringResource(R.string.error_empty_fields_title),
+            message = stringResource(R.string.error_empty_fields_msg)
         )
     }
 }

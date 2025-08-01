@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,11 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.app.starker.presentation.auth.register.AlertDialogRegister
 import com.app.starker.presentation.common.view.CustomTextField
 import com.app.starker.presentation.common.view.LoadingOverview
 import com.app.starker.presentation.navigation.routes.auth.AuthRoutes
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
+import androidx.compose.ui.res.stringResource
+import com.app.starker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +48,7 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
     val isAuthInvalid by loginViewModel.isAuthInvalid.collectAsState()
     val isError by loginViewModel.isError.collectAsState()
     val isNavigate by loginViewModel.isNavigate.collectAsState()
+
     LaunchedEffect(isNavigate) {
         if (isNavigate) {
             navHostController.navigate(WorkoutRoutes.MainWorkout.route) {
@@ -56,6 +56,7 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             }
         }
     }
+
     Box(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = {},
@@ -65,7 +66,7 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             navigationIcon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Voltar",
+                    contentDescription = stringResource(R.string.back_button_description),
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .clickable {
@@ -75,38 +76,48 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             },
             modifier = Modifier.align(Alignment.TopStart)
         )
+
         Box(
             modifier = Modifier
                 .height(200.dp)
                 .align(Alignment.TopCenter)
         ) {
-            Text("Entrar", fontSize = 30.sp, modifier = Modifier.align(Alignment.BottomCenter))
+            Text(
+                stringResource(R.string.login_title),
+                fontSize = 30.sp,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
+
         Column(modifier = Modifier.align(Alignment.Center)) {
             Spacer(modifier = Modifier.height(20.dp))
+
             CustomTextField(
                 value = emailField,
-                onValueChange = {
-                    emailField = it
-                },
-                placeholder = "Email"
+                onValueChange = { emailField = it },
+                placeholder = stringResource(R.string.email_placeholder)
             )
+
             Spacer(modifier = Modifier.height(20.dp))
+
             CustomTextField(
                 value = passwordField,
-                onValueChange = {
-                    passwordField = it
-                },
-                placeholder = "Senha"
+                onValueChange = { passwordField = it },
+                placeholder = stringResource(R.string.password_placeholder)
             )
+
             Spacer(modifier = Modifier.height(20.dp))
-            Text("Esqueceu a senha?", modifier = Modifier.padding(horizontal = 40.dp))
+
+            Text(
+                stringResource(R.string.forgot_password),
+                modifier = Modifier.padding(horizontal = 40.dp)
+            )
+
             Spacer(modifier = Modifier.height(40.dp))
 
             Button(
                 onClick = {
-                    isEmptyField =
-                        emailField.isEmpty() || passwordField.isEmpty()
+                    isEmptyField = emailField.isEmpty() || passwordField.isEmpty()
                     if (!isEmptyField) {
                         loginViewModel.loginUser(emailField, passwordField)
                     }
@@ -121,26 +132,21 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Entrar")
+                Text(stringResource(R.string.login_button))
             }
         }
+
         if (isLoading) {
             LoadingOverview()
         }
+
         AlertDialogLogin(
-           isAuthInvalid = isAuthInvalid,
-           onAuthInvalid = {
-               loginViewModel.setAuthInvalid(it)
-           },
+            isAuthInvalid = isAuthInvalid,
+            onAuthInvalid = { loginViewModel.setAuthInvalid(it) },
             isEmptyField = isEmptyField,
-            onEmptyField = {
-                isEmptyField = false
-            },
+            onEmptyField = { isEmptyField = false },
             isError = isError,
-            onError =  {
-                loginViewModel.setIsError(it)
-            }
+            onError = { loginViewModel.setIsError(it) }
         )
     }
-
 }

@@ -24,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.app.starker.R
 import com.app.starker.presentation.common.view.CustomTextField
 import com.app.starker.presentation.common.view.LoadingOverview
 import com.app.starker.presentation.navigation.routes.auth.AuthRoutes
@@ -60,7 +62,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 .align(Alignment.Center)
         ) {
             Text(
-                "Cadastrar",
+                stringResource(R.string.top_title_register),
                 fontSize = 30.sp,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -72,7 +74,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 onValueChange = {
                     usernameField = it
                 },
-                placeholder = "Username"
+                placeholder = stringResource(R.string.username_placeholder)
             )
             Spacer(modifier = Modifier.height(20.dp))
             CustomTextField(
@@ -80,7 +82,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 onValueChange = {
                     emailField = it
                 },
-                placeholder = "Email"
+                placeholder = stringResource(R.string.email_placeholder)
             )
             Spacer(modifier = Modifier.height(20.dp))
             CustomTextField(
@@ -88,7 +90,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 onValueChange = {
                     passwordField = it
                 },
-                placeholder = "Senha"
+                placeholder = stringResource(R.string.password_placeholder)
             )
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -110,11 +112,11 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Registrar")
+                Text(stringResource(R.string.text_button_register))
             }
             Spacer(modifier = Modifier.height(80.dp))
             Text(
-                "Já tem conta? Entre por aqui",
+                stringResource(R.string.go_to_login),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 70.dp)

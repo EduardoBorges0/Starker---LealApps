@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Starker</string>
+    
+    <!--Register Screen -->
+    <string name="top_title_register">Cadastrar</string>
+    <string name="username_placeholder">Username</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Senha</string>
+    <string name="text_button_register">Registrar</string>
+    <string name="go_to_login">Já tem conta? Entre por aqui</string>
+
+    <!-- Alert Dialogs - Register -->
+    <string name="error_title">Erro</string>
+    <string name="error_generic">Algo deu errado!!</string>
+    <string name="error_email_title">Erro no email</string>
+    <string name="error_email_bad_format">Email mal formatado!!</string>
+    <string name="error_empty_fields_title">Campos vazios</string>
+    <string name="error_empty_fields_msg">Preencha todos os campos!!</string>
+    <string name="error_email_exists_msg">Esse email já existe!!</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Entrar</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="login_button">Entrar</string>
+    <string name="back_button_description">Voltar</string>
+
+    <!-- Alert Dialogs - Login -->
+    <string name="error_auth_invalid_msg">Email ou senha não estão corretas!!</string>
 </resources>

@@ -2,6 +2,9 @@ package com.app.starker.presentation.auth.register
 
 import androidx.compose.runtime.Composable
 import com.app.starker.presentation.common.view.AlertDialogComposable
+import androidx.compose.ui.res.stringResource
+import com.app.starker.R
+import com.app.starker.presentation.common.view.AlertDialogComposable
 
 @Composable
 fun AlertDialogRegister(
@@ -14,52 +17,36 @@ fun AlertDialogRegister(
     isError: Boolean,
     onError: (Boolean) -> Unit
 ) {
-    if(isError){
+    if (isError) {
         AlertDialogComposable(
-            onConfirm = {
-                onError(false)
-            },
-            onDismiss = {
-                onError(false)
-            },
-            title = "Error",
-            message = "Algo deu errado!!"
+            onConfirm = { onError(false) },
+            onDismiss = { onError(false) },
+            title = stringResource(R.string.error_title),
+            message = stringResource(R.string.error_generic)
         )
     }
-    if(isBadFormatted){
+    if (isBadFormatted) {
         AlertDialogComposable(
-            onConfirm = {
-                onBadFormatted(false)
-            },
-            onDismiss = {
-                onBadFormatted(false)
-            },
-            title = "Erro no email",
-            message = "Email mal formatado!!"
+            onConfirm = { onBadFormatted(false) },
+            onDismiss = { onBadFormatted(false) },
+            title = stringResource(R.string.error_email_title),
+            message = stringResource(R.string.error_email_bad_format)
         )
     }
-    if(isEmptyField){
+    if (isEmptyField) {
         AlertDialogComposable(
-            onConfirm = {
-                onEmptyField(false)
-            },
-            onDismiss = {
-                onEmptyField(false)
-            },
-            title = "Campos vazios",
-            message = "Preencha todos os campos!!"
+            onConfirm = { onEmptyField(false) },
+            onDismiss = { onEmptyField(false) },
+            title = stringResource(R.string.error_empty_fields_title),
+            message = stringResource(R.string.error_empty_fields_msg)
         )
     }
-    if(isFirebaseAuthColision){
+    if (isFirebaseAuthColision) {
         AlertDialogComposable(
-            onConfirm = {
-                onFirebaseAuthColision(false)
-            },
-            onDismiss = {
-                onFirebaseAuthColision(false)
-            },
-            title = "Error",
-            message = "Esse email já existe!!"
+            onConfirm = { onFirebaseAuthColision(false) },
+            onDismiss = { onFirebaseAuthColision(false) },
+            title = stringResource(R.string.error_title),
+            message = stringResource(R.string.error_email_exists_msg)
         )
     }
 }
