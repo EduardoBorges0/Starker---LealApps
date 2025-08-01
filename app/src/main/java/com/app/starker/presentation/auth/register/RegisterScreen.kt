@@ -45,6 +45,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
     val isError by registerViewModel.isError.collectAsState()
     val isLoading by registerViewModel.isLoading.collectAsState()
     val isNavigate by registerViewModel.isNavigate.collectAsState()
+
     LaunchedEffect(isNavigate) {
         if (isNavigate) {
             navHostController.navigate(WorkoutRoutes.MainWorkout.route) {
@@ -93,7 +94,6 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                 placeholder = stringResource(R.string.password_placeholder)
             )
             Spacer(modifier = Modifier.height(40.dp))
-
             Button(
                 onClick = {
                     isEmptyField =
@@ -125,8 +125,6 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
                     }
             )
         }
-
-
         if (isLoading) {
             LoadingOverview()
         }

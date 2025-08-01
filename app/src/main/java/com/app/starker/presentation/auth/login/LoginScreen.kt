@@ -1,5 +1,6 @@
 package com.app.starker.presentation.auth.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -28,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -56,68 +60,65 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             }
         }
     }
-
+    TopAppBar(
+        title = {},
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.back_button_description),
+                modifier = Modifier
+                    .padding(start = 32.dp, top = 32.dp)
+                    .clickable {
+                        navHostController.popBackStack()
+                    }
+            )
+        },
+        modifier = Modifier.background(Color.Blue)
+    )
     Box(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {},
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            navigationIcon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back_button_description),
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .clickable {
-                            navHostController.popBackStack()
-                        }
-                )
-            },
-            modifier = Modifier.align(Alignment.TopStart)
-        )
-
-        Box(
+        Column(
             modifier = Modifier
-                .height(200.dp)
-                .align(Alignment.TopCenter)
+                .verticalScroll(rememberScrollState())
+                .align(Alignment.Center)
         ) {
             Text(
                 stringResource(R.string.login_title),
                 fontSize = 30.sp,
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
             )
-        }
-
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Spacer(modifier = Modifier.height(20.dp))
-
+            Spacer(modifier = Modifier.height(80.dp))
             CustomTextField(
                 value = emailField,
-                onValueChange = { emailField = it },
+                onValueChange = {
+                    emailField = it
+                },
                 placeholder = stringResource(R.string.email_placeholder)
             )
-
             Spacer(modifier = Modifier.height(20.dp))
-
             CustomTextField(
                 value = passwordField,
-                onValueChange = { passwordField = it },
+                onValueChange = {
+                    passwordField = it
+                },
                 placeholder = stringResource(R.string.password_placeholder)
             )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
             Text(
                 stringResource(R.string.forgot_password),
-                modifier = Modifier.padding(horizontal = 40.dp)
+                modifier = Modifier
+                    .padding(top = 10.dp, start = 40.dp)
+                    .clickable {
+                        navHostController.navigate(AuthRoutes.LoginScreen.route)
+                    }
             )
-
             Spacer(modifier = Modifier.height(40.dp))
-
             Button(
                 onClick = {
-                    isEmptyField = emailField.isEmpty() || passwordField.isEmpty()
+                    isEmptyField =
+                        emailField.isEmpty() || passwordField.isEmpty()
                     if (!isEmptyField) {
                         loginViewModel.loginUser(emailField, passwordField)
                     }
@@ -134,12 +135,11 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             ) {
                 Text(stringResource(R.string.login_button))
             }
+            Spacer(modifier = Modifier.height(80.dp))
         }
-
         if (isLoading) {
             LoadingOverview()
         }
-
         AlertDialogLogin(
             isAuthInvalid = isAuthInvalid,
             onAuthInvalid = { loginViewModel.setAuthInvalid(it) },
