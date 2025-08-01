@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.app.starker.presentation.auth.login.LoginScreen
+import com.app.starker.presentation.auth.login.LoginViewModel
 import com.app.starker.presentation.auth.register.RegisterScreen
 import com.app.starker.presentation.auth.register.RegisterViewModel
 
@@ -26,6 +27,7 @@ fun NavGraphBuilder.NavAuthRoutes(navHostController: NavHostController) {
             tween(1000)
         )
     }) {
-        LoginScreen(navHostController)
+        val loginViewModel : LoginViewModel = hiltViewModel()
+        LoginScreen(navHostController, loginViewModel)
     }
 }

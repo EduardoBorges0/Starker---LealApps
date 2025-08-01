@@ -22,6 +22,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,15 +33,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.app.starker.presentation.auth.register.AlertDialogRegister
 import com.app.starker.presentation.common.view.CustomTextField
+import com.app.starker.presentation.common.view.LoadingOverview
 import com.app.starker.presentation.navigation.routes.auth.AuthRoutes
+import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navHostController: NavHostController) {
+fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewModel) {
     var emailField by remember { mutableStateOf("") }
     var passwordField by remember { mutableStateOf("") }
-
+    var isEmptyField by remember { mutableStateOf(false) }
+    val isLoading by loginViewModel.isLoading.collectAsState()
+    val isAuthInvalid by loginViewModel.isAuthInvalid.collectAsState()
+    val isError by loginViewModel.isError.collectAsState()
+    val isNavigate by loginViewModel.isNavigate.collectAsState()
+    LaunchedEffect(isNavigate) {
+        if (isNavigate) {
+            navHostController.navigate(WorkoutRoutes.MainWorkout.route) {
+                popUpTo(AuthRoutes.RegisterScreen.route) { inclusive = true }
+            }
+        }
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = {},
@@ -89,7 +105,11 @@ fun LoginScreen(navHostController: NavHostController) {
 
             Button(
                 onClick = {
-
+                    isEmptyField =
+                        emailField.isEmpty() || passwordField.isEmpty()
+                    if (!isEmptyField) {
+                        loginViewModel.loginUser(emailField, passwordField)
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -104,6 +124,23 @@ fun LoginScreen(navHostController: NavHostController) {
                 Text("Entrar")
             }
         }
+        if (isLoading) {
+            LoadingOverview()
+        }
+        AlertDialogLogin(
+           isAuthInvalid = isAuthInvalid,
+           onAuthInvalid = {
+               loginViewModel.setAuthInvalid(it)
+           },
+            isEmptyField = isEmptyField,
+            onEmptyField = {
+                isEmptyField = false
+            },
+            isError = isError,
+            onError =  {
+                loginViewModel.setIsError(it)
+            }
+        )
     }
 
 }
