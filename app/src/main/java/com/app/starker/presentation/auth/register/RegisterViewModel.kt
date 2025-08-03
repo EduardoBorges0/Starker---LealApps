@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.starker.domain.repositories.AuthRepositories
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,13 +49,16 @@ class RegisterViewModel @Inject constructor(private val authRepositories: AuthRe
             _isLoading.value = true
             try {
                 authRepositories.registerUser(email, password)
-                authRepositories.createUserInFirestore(username, email, password)
+                val uid = authRepositories.getUserUid()
+                if (uid != null) {
+                    authRepositories.createUserInFirestore(username, email, uid)
+                }
                 _isNavigate.value = true
             } catch (e: FirebaseAuthUserCollisionException) {
                 _isFirebaseColision.value = true
-            } catch (e: FirebaseAuthInvalidCredentialsException){
+            } catch (e: FirebaseAuthInvalidCredentialsException) {
                 _isBadFormatted.value = true
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 _isError.value = true
             }
             _isLoading.value = false

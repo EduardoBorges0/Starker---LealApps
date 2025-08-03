@@ -48,16 +48,26 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation("com.google.firebase:firebase-storage")
 
     //Hilt Dependencies
     //noinspection UseTomlInstead
     implementation ("com.google.dagger:hilt-android:2.56.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     ksp (libs.hilt.compiler)
 
     //Navigation Dependencies
     implementation("androidx.navigation:navigation-compose:2.9.3")
 
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //UCrop
+    implementation ("com.github.yalantis:ucrop:2.2.8")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

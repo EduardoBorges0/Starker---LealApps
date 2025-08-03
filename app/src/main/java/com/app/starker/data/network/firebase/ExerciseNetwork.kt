@@ -1,9 +1,11 @@
 package com.app.starker.data.network.firebase
 
+import android.net.Uri
 import com.app.starker.data.model.ExerciseModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 
 class ExerciseNetwork {
@@ -19,6 +21,34 @@ class ExerciseNetwork {
             .document()
         exerciseRef.set(exercise).await()
         return exerciseRef
+    }
+
+    fun uploadImageAndReturnUrl(
+        imageUri: Uri,
+        documentId: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val uid = FirebaseAuth.getInstance().uid ?: run {
+            onFailure(Exception("Usuário não autenticado"))
+            return
+        }
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child("$uid/$documentId.jpg")
+
+        imageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val imageUrl = downloadUri.toString()
+                    onSuccess(imageUrl)
+                }.addOnFailureListener {
+                    onFailure(it)
+                }
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
     }
 
     suspend fun editExercise(workoutId: String, exerciseId: String, updatedExercise: ExerciseModel) {

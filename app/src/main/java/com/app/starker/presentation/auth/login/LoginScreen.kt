@@ -55,7 +55,7 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
 
     LaunchedEffect(isNavigate) {
         if (isNavigate) {
-            navHostController.navigate(WorkoutRoutes.MainWorkout.route) {
+            navHostController.navigate(WorkoutRoutes.ShowWorkout.route) {
                 popUpTo(AuthRoutes.RegisterScreen.route) { inclusive = true }
             }
         }

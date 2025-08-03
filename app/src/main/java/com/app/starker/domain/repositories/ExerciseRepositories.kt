@@ -1,5 +1,6 @@
 package com.app.starker.domain.repositories
 
+import android.net.Uri
 import com.app.starker.data.model.ExerciseModel
 import com.google.firebase.firestore.DocumentReference
 
@@ -9,4 +10,10 @@ interface ExerciseRepositories {
     suspend fun deleteExercise(workoutId: String, exerciseId: String)
     suspend fun getAllExercises(workoutId: String): List<ExerciseModel>
     suspend fun getExerciseById(workoutId: String, exerciseId: String): ExerciseModel?
+    fun uploadImageAndReturnUrl(
+        imageUri: Uri,
+        documentId: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    )
 }

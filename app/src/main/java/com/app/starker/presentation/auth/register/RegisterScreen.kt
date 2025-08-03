@@ -48,7 +48,7 @@ fun RegisterScreen(navHostController: NavHostController, registerViewModel: Regi
 
     LaunchedEffect(isNavigate) {
         if (isNavigate) {
-            navHostController.navigate(WorkoutRoutes.MainWorkout.route) {
+            navHostController.navigate(WorkoutRoutes.ShowWorkout.route) {
                 popUpTo(AuthRoutes.RegisterScreen.route) { inclusive = true }
             }
         }

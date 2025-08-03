@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 fun CustomTextField (
     value: String,
     onValueChange : (String) -> Unit,
-    placeholder: String
+    placeholder: String,
+    modifier: Modifier = Modifier
 ){
     TextField(
         value = value,
@@ -30,7 +31,7 @@ fun CustomTextField (
         placeholder = {
             Text(placeholder)
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 40.dp)
             .clip(RoundedCornerShape(8.dp))

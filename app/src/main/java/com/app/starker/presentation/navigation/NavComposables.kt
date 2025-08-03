@@ -14,9 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 fun NavComposables(navHostController: NavHostController) {
     NavHost(
         navController = navHostController,
-        startDestination = if (FirebaseAuth.getInstance().uid == null) AuthRoutes.RegisterScreen.route else WorkoutRoutes.MainWorkout.route
+        startDestination = if (FirebaseAuth.getInstance().uid == null) AuthRoutes.RegisterScreen.route else WorkoutRoutes.ShowWorkout.route
     ) {
         NavAuthRoutes(navHostController)
-        NavWorkoutRoutes()
+        NavWorkoutRoutes(navHostController)
     }
 }

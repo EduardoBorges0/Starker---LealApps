@@ -1,5 +1,6 @@
 package com.app.starker.data.repositoriesImpl
 
+import android.net.Uri
 import com.app.starker.data.model.WorkoutModel
 import com.app.starker.data.network.firebase.WorkoutNetwork
 import com.app.starker.domain.repositories.WorkoutRepositories
@@ -29,5 +30,13 @@ class WorkoutRepositoriesImpl @Inject constructor(private val workoutNetwork: Wo
 
     override suspend fun getWorkoutById(workoutId: String): WorkoutModel? {
         return workoutNetwork.getWorkoutById(workoutId)
+    }
+    override fun uploadImageAndReturnUrlWorkout(
+        imageUri: Uri,
+        documentId: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        workoutNetwork.uploadImageAndReturnUrlWorkout(imageUri, documentId, onSuccess, onFailure)
     }
 }
