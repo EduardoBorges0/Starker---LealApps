@@ -9,6 +9,12 @@ sealed class WorkoutRoutes(
 ) {
     object ShowWorkout : WorkoutRoutes("show_workout")
     object InsertWorkout : WorkoutRoutes("insert_workout")
+    object ShowWorkoutDetails : WorkoutRoutes("show_workout_details/{workoutId}"){
+        fun createRoute(workoutId: String): String{
+            val encodedWorkoutId = URLEncoder.encode(workoutId, StandardCharsets.UTF_8.toString())
+            return "show_workout_details/$encodedWorkoutId"
+        }
+    }
 
     object InsertWorkoutImage : WorkoutRoutes("insert_workout_image/{workoutName}/{workoutDescription}/{date}") {
         fun createRoute(workoutName: String, workoutDescription: String, date: String): String {

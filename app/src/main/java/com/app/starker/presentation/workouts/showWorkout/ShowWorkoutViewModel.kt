@@ -18,6 +18,10 @@ class ShowWorkoutViewModel @Inject constructor(private val workoutRepositories: 
 
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading : StateFlow<Boolean> = _isLoading
+
+    fun setIsLoading(value: Boolean){
+        _isLoading.value = value
+    }
     init {
         getAllWorkoutsByUser()
     }

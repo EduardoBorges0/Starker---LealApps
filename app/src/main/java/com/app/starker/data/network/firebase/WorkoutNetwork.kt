@@ -17,7 +17,8 @@ class WorkoutNetwork {
     suspend fun createWorkoutByUser(workout: WorkoutModel): DocumentReference {
         val userRef = firestoreInstance.collection("Users").document(uid)
         val workoutRef = userRef.collection("Workout").document()
-        workoutRef.set(workout).await()
+        val workoutWithUid = workout.copy(uid = workoutRef.id)
+        workoutRef.set(workoutWithUid).await()
         return workoutRef
     }
     fun uploadImageAndReturnUrlWorkout(

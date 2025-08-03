@@ -1,6 +1,8 @@
 package com.app.starker.presentation.workouts.showWorkout
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,15 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.app.starker.R
 import com.app.starker.data.model.WorkoutModel
+import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun WorkoutView(workouts: List<WorkoutModel>, i: Int) {
+fun WorkoutView(workouts: List<WorkoutModel>, i: Int, isClick: () -> Unit) {
     val timestamp = workouts[i].date
     val date = Date(timestamp.seconds * 1000)
 
@@ -38,7 +42,7 @@ fun WorkoutView(workouts: List<WorkoutModel>, i: Int) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = if (i == 0) 104.dp else 20.dp,
+                top = if (i == 0) 150.dp else 20.dp,
                 bottom = if (i == workouts.size - 1) 74.dp else 4.dp,
                 start = 10.dp,
                 end = 10.dp
@@ -46,6 +50,9 @@ fun WorkoutView(workouts: List<WorkoutModel>, i: Int) {
             .height(80.dp)
             .clip(RoundedCornerShape(80.dp))
             .background(MaterialTheme.colorScheme.secondary)
+            .clickable {
+                isClick()
+            }
     ) {
         AsyncImage(
             model = R.drawable.icon_workout,
@@ -58,7 +65,9 @@ fun WorkoutView(workouts: List<WorkoutModel>, i: Int) {
         )
 
         Column (
-            modifier = Modifier.fillMaxSize().padding(top = 10.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 10.dp)
         ){
             Text(
                 workouts[i].name,
