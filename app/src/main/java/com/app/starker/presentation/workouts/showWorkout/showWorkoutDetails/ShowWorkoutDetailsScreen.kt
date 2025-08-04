@@ -1,8 +1,6 @@
 package com.app.starker.presentation.workouts.showWorkout.showWorkoutDetails
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.starker.R
+import com.app.starker.presentation.common.utils.TransformTimestampInString
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,6 +44,7 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
     val viewModel: ShowWorkoutDetailsViewModel = hiltViewModel()
     val workoutById = viewModel.workoutById.collectAsState()
     var isDeleteWorkout by remember { mutableStateOf(false) }
+    val hasError by viewModel.hasError.collectAsState()
 
     LaunchedEffect(workoutId) {
         if (workoutId.isNotEmpty()) {
@@ -97,7 +97,18 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
                 )
                 Icon(
                     Icons.Filled.Edit,
-                    null
+                    null,
+                    modifier = Modifier.clickable {
+                        val date = TransformTimestampInString().invoke(workoutById.value?.date)
+                        navHostController.navigate(
+                            WorkoutRoutes.UpdateWorkout.createRoute(
+                                workoutId,
+                                workoutById.value?.name ?: "",
+                                workoutById.value?.description ?: "",
+                                date
+                            )
+                        )
+                    }
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -114,6 +125,10 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
                         inclusive = true
                     }
                 }
+            },
+            hasError = hasError,
+            onHasError = {
+                viewModel.setHasError(it)
             }
         )
     }

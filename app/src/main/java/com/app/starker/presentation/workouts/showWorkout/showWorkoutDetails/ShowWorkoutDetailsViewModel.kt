@@ -16,35 +16,31 @@ class ShowWorkoutDetailsViewModel @Inject constructor(private val workoutReposit
     private val _workoutById = MutableStateFlow<WorkoutModel?>(null)
     val workoutById: StateFlow<WorkoutModel?> = _workoutById
 
+    private val _hasError = MutableStateFlow(false)
+    val hasError: StateFlow<Boolean> = _hasError
+
+    fun setHasError(value: Boolean){
+        _hasError.value = value
+    }
     fun getWorkoutById(workoutId: String) {
         viewModelScope.launch {
             try {
                 _workoutById.value = workoutRepositories.getWorkoutById(workoutId)
+                _hasError.value = false
             } catch (e: Exception) {
-
+                _hasError.value = true
             }
         }
     }
 
-//    fun editWorkoutById(
-//        workoutId: String,
-//        workoutName: String,
-//        descriptionName: String,
-//        date: String
-//    ) {
-//        viewModelScope.launch {
-//            val workout = WorkoutModel(
-//                name = workoutName,
-//                description = descriptionName,
-//                date = date
-//            )
-//            workoutRepositories.editWorkoutByUser(workoutId)
-//        }
-//    }
-
     fun deleteWorkoutById(workoutId: String) {
         viewModelScope.launch {
-            workoutRepositories.deleteWorkoutByUser(workoutId)
+            try {
+                workoutRepositories.deleteWorkoutByUser(workoutId)
+                _hasError.value = false
+            } catch (e: Exception) {
+                _hasError.value = true
+            }
         }
     }
 }
