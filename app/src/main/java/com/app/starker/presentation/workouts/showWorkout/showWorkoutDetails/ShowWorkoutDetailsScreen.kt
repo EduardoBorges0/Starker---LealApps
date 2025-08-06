@@ -1,5 +1,6 @@
 package com.app.starker.presentation.workouts.showWorkout.showWorkoutDetails
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -7,12 +8,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +42,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.starker.R
 import com.app.starker.presentation.common.utils.TransformTimestampInString
+import com.app.starker.presentation.common.view.LoadingOverview
+import com.app.starker.presentation.navigation.routes.exercise.ExerciseRoutes
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,56 +51,61 @@ import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: String) {
     val viewModel: ShowWorkoutDetailsViewModel = hiltViewModel()
     val workoutById = viewModel.workoutById.collectAsState()
+    val exercises by viewModel.exercises.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
     var isDeleteWorkout by remember { mutableStateOf(false) }
     val hasError by viewModel.hasError.collectAsState()
 
     LaunchedEffect(workoutId) {
         if (workoutId.isNotEmpty()) {
             viewModel.getWorkoutById(workoutId)
+            viewModel.getAllExercises(workoutId)
         }
     }
     Box(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {
-                Text(
-                    workoutById.value?.name ?: "Sem nome",
-                    modifier = Modifier.padding(start = 32.dp, top = 32.dp)
-                )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            navigationIcon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back_button_description),
-                    modifier = Modifier
-                        .padding(start = 32.dp, top = 32.dp)
-                        .clickable {
-                            navHostController.popBackStack()
-                        }
-                )
-            },
-            actions = {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = "Excluir",
-                    modifier = Modifier
-                        .padding(end = 32.dp, top = 32.dp)
-                        .clickable {
-                            isDeleteWorkout = true
-                        },
-                    tint = Color.Red
-                )
-            },
-            modifier = Modifier.background(Color.Blue)
-        )
-
-        Column(modifier = Modifier.align(Alignment.TopCenter)) {
-            Spacer(modifier = Modifier.height(150.dp))
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .verticalScroll(rememberScrollState())
+        ) {
+            TopAppBar(
+                title = {
+                    Text(
+                        workoutById.value?.name ?: stringResource(R.string.no_name),
+                        modifier = Modifier.padding(start = 32.dp, top = 32.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back_button_description),
+                        modifier = Modifier
+                            .padding(start = 32.dp, top = 32.dp)
+                            .clickable {
+                                navHostController.popBackStack()
+                            }
+                    )
+                },
+                actions = {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 32.dp, top = 32.dp)
+                            .clickable {
+                                isDeleteWorkout = true
+                            },
+                        tint = Color.Red
+                    )
+                },
+            )
+            Spacer(modifier = Modifier.height(50.dp))
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
-                    workoutById.value?.description ?: "Sem descrição",
+                    workoutById.value?.description ?: stringResource(R.string.no_description),
                     modifier = Modifier.padding(horizontal = 40.dp)
                 )
                 Icon(
@@ -115,6 +128,34 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
             Divider(
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
+            for (i in 0 until exercises.size) {
+                ExercisesView(i, exercises, onDelete = {
+                    viewModel.deleteExercise(workoutId, it.id)
+                }, onEdit = {
+                    navHostController.navigate(
+                        ExerciseRoutes.UpdateExercise.createRoute(
+                            workoutId,
+                            it.id
+                        )
+                    )
+                })
+            }
+        }
+
+        Button(
+            onClick = {
+                navHostController.navigate(
+                    ExerciseRoutes.InsertExercise.createRoute(workoutId)
+                )
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .height(110.dp)
+                .padding(horizontal = 40.dp)
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 50.dp),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(stringResource(R.string.add_exercise))
         }
         AlertDialogWorkoutDetails(
             isDeleteWorkout = isDeleteWorkout,
@@ -131,5 +172,8 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
                 viewModel.setHasError(it)
             }
         )
+        if (isLoading) {
+            LoadingOverview()
+        }
     }
 }

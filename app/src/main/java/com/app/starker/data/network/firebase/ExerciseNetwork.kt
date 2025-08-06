@@ -11,86 +11,85 @@ import kotlinx.coroutines.tasks.await
 class ExerciseNetwork {
     private val firestoreInstance = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().uid ?: ""
+    private val storageInstance = FirebaseStorage.getInstance()
 
-    suspend fun createExercise(workoutId: String, exercise: ExerciseModel): DocumentReference {
-        val exerciseRef = firestoreInstance.collection("Users")
-            .document(uid)
-            .collection("Workout")
-            .document(workoutId)
-            .collection("Exercise")
-            .document()
-        exerciseRef.set(exercise).await()
-        return exerciseRef
+    // Cria um exercício na subcoleção "Exercises" de um Workout
+    suspend fun createExercise(workoutId: String, exercise: ExerciseModel): String? {
+        val docRef = firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises").document()
+        val exerciseWithId = exercise.copy(id = docRef.id)
+        docRef.set(exerciseWithId).await()
+        return docRef.id
     }
 
-    fun uploadImageAndReturnUrl(
-        imageUri: Uri,
-        documentId: String,
-        onSuccess: (String) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        val uid = FirebaseAuth.getInstance().uid ?: run {
-            onFailure(Exception("Usuário não autenticado"))
-            return
-        }
-
-        val storageRef = FirebaseStorage.getInstance().reference
-        val imageRef = storageRef.child("$uid/$documentId.jpg")
-
-        imageRef.putFile(imageUri)
-            .addOnSuccessListener {
-                imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                    val imageUrl = downloadUri.toString()
-                    onSuccess(imageUrl)
-                }.addOnFailureListener {
-                    onFailure(it)
-                }
-            }
-            .addOnFailureListener {
-                onFailure(it)
-            }
-    }
-
-    suspend fun editExercise(workoutId: String, exerciseId: String, updatedExercise: ExerciseModel) {
-        val exerciseRef = firestoreInstance.collection("Users")
-            .document(uid)
-            .collection("Workout")
-            .document(workoutId)
-            .collection("Exercise")
-            .document(exerciseId)
-        exerciseRef.set(updatedExercise).await()
-    }
-
+    // Deleta um exercício da subcoleção "Exercises" de um Workout
     suspend fun deleteExercise(workoutId: String, exerciseId: String) {
-        val exerciseRef = firestoreInstance.collection("Users")
-            .document(uid)
-            .collection("Workout")
-            .document(workoutId)
-            .collection("Exercise")
-            .document(exerciseId)
-        exerciseRef.delete().await()
+        firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises").document(exerciseId)
+            .delete().await()
     }
 
-    suspend fun getAllExercises(workoutId: String): List<ExerciseModel> {
-        val exercisesSnapshot = firestoreInstance.collection("Users")
-            .document(uid)
-            .collection("Workout")
-            .document(workoutId)
-            .collection("Exercise")
-            .get()
-            .await()
-        return exercisesSnapshot.documents.mapNotNull { it.toObject(ExerciseModel::class.java) }
+    // Atualiza um exercício na subcoleção "Exercises" de um Workout
+    suspend fun updateExercise(workoutId: String, exercise: ExerciseModel) {
+        firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises").document(exercise.id)
+            .set(exercise).await()
     }
 
+    // Busca todos os exercícios de um Workout
+    suspend fun getEveryExercise(workoutId: String): List<ExerciseModel> {
+        val snapshot = firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises")
+            .get().await()
+        return snapshot.toObjects(ExerciseModel::class.java)
+    }
+
+    // Busca um exercício pelo id
     suspend fun getExerciseById(workoutId: String, exerciseId: String): ExerciseModel? {
-        val exerciseRef = firestoreInstance.collection("Users")
-            .document(uid)
-            .collection("Workout")
-            .document(workoutId)
-            .collection("Exercise")
-            .document(exerciseId)
-            .get()
-            .await()
-        return exerciseRef.toObject(ExerciseModel::class.java)
+        val doc = firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises").document(exerciseId)
+            .get().await()
+        return doc.toObject(ExerciseModel::class.java)
+    }
+
+    // Faz upload da imagem do exercício para o Firebase Storage e retorna a URL
+    suspend fun uploadExerciseImage(workoutId: String, exerciseId: String, imageUri: Uri): String {
+        val storageRef = storageInstance.reference
+            .child("$uid/$workoutId/$exerciseId")
+        storageRef.putFile(imageUri).await()
+        return storageRef.downloadUrl.await().toString()
+    }
+
+    // Deleta todos os exercícios da subcoleção "Exercises" de um Workout
+    suspend fun deleteAllExercises(workoutId: String) {
+        val exercisesRef = firestoreInstance
+            .collection("Users").document(uid)
+            .collection("Workout").document(workoutId)
+            .collection("Exercises")
+        val snapshot = exercisesRef.get().await()
+        snapshot.documents.forEach { it.reference.delete().await() }
+    }
+
+    // Deleta a imagem de um exercício específico no Storage (uid/workoutId/exerciseId)
+    suspend fun deleteExerciseImage(workoutId: String, exerciseId: String) {
+        val storageRef = storageInstance.reference.child("$uid/$workoutId/$exerciseId")
+        storageRef.delete().await()
+    }
+
+    // Deleta todas as imagens da pasta de um workout no Storage (uid/workoutId)
+    suspend fun deleteAllImagesFromWorkout(workoutId: String) {
+        val workoutFolderRef = storageInstance.reference.child("$uid/$workoutId")
+        val items = workoutFolderRef.listAll().await()
+        items.items.forEach { it.delete().await() }
     }
 }

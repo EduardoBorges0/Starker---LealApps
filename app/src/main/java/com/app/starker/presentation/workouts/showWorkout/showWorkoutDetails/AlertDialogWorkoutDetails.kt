@@ -16,18 +16,18 @@ fun AlertDialogWorkoutDetails(
         AlertDialogComposable(
             onConfirm = { onDeleteWorkout() },
             onDismiss = {  },
-            title = "Excluir",
-            message = "Você deseja deletar esse treino?",
-            confirmButtonText = "Confirmar"
+            title = stringResource(R.string.remove_workout),
+            message = stringResource(R.string.do_you_wish_remove_thats_workout),
+            confirmButtonText = stringResource(R.string.confirm_button_remove_workout)
         )
     }
     if(hasError){
         AlertDialogComposable(
             onConfirm = { onHasError(false) },
             onDismiss = {  },
-            title = "Erro",
-            message = "Aconteceu algum erro",
-            confirmButtonText = "Ok"
+            title = stringResource(R.string.workout_details_error),
+            message = stringResource(R.string.workout_details_text_error),
+            confirmButtonText = stringResource(R.string.confirm_button_erro_workout_details)
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import com.app.starker.presentation.navigation.routes.auth.AuthRoutes
 import com.app.starker.presentation.navigation.routes.auth.NavAuthRoutes
+import com.app.starker.presentation.navigation.routes.exercise.NavExerciseRoutes
 import com.app.starker.presentation.navigation.routes.workout.NavWorkoutRoutes
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 import com.google.firebase.Firebase
@@ -18,5 +19,6 @@ fun NavComposables(navHostController: NavHostController) {
     ) {
         NavAuthRoutes(navHostController)
         NavWorkoutRoutes(navHostController)
+        NavExerciseRoutes(navHostController)
     }
 }

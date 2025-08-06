@@ -26,4 +26,30 @@
 
     <!-- Alert Dialogs - Login -->
     <string name="error_auth_invalid_msg">Email ou senha não estão corretas!!</string>
+
+    <!-- Alert Dialogs - Workout Details -->
+    <string name="remove_workout">Excluir</string>
+    <string name="do_you_wish_remove_thats_workout">Você deseja deletar esse treino?</string>
+    <string name="confirm_button_remove_workout">Confirmar</string>
+
+    <string name="workout_details_error">Erro</string>
+    <string name="workout_details_text_error">Aconteceu algum erro</string>
+    <string name="confirm_button_erro_workout_details">Ok</string>
+
+    <!-- General/Workout Details -->
+    <string name="no_name">Sem nome</string>
+    <string name="no_description">Sem descrição</string>
+    <string name="add_exercise">Adicionar Exercício</string>
+
+    <!-- Exercise/Insert/Update -->
+    <string name="add_exercise_title">Adicionar Exercício</string>
+    <string name="update_exercise_title">Atualizar Exercício</string>
+    <string name="exercise_name_placeholder">Nome do exercício</string>
+    <string name="exercise_observation_placeholder">Observação</string>
+    <string name="select_image">Selecionar Imagem</string>
+    <string name="save_exercise">Salvar Exercício</string>
+    <string name="selected_image_content_description">Imagem selecionada</string>
+    <string name="error_fill_all_fields">Erros: Preencha todos os campos.</string>
+    <string name="error_insert_exercise">Erro ao inserir exercício.</string>
+    <string name="error_no_changes_detected">Nenhuma alteração detectada.</string>
 </resources>
