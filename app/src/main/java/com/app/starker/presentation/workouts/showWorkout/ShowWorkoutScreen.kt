@@ -50,25 +50,6 @@ fun ShowWorkoutScreen(navHostController: NavHostController) {
     val isLoading = showWorkoutViewModel.isLoading.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {},
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            actions = {
-                Icon(
-                    imageVector = Icons.Outlined.Settings, // Ícone de lixeira
-                    contentDescription = "Excluir",
-                    modifier = Modifier
-                        .padding(end = 32.dp, top = 32.dp)
-                        .clickable {
-
-                        },
-                    tint = MaterialTheme.colorScheme.secondary
-                )
-            },
-            modifier = Modifier.background(Color.Blue)
-        )
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -94,6 +75,25 @@ fun ShowWorkoutScreen(navHostController: NavHostController) {
         ) {
             Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(40.dp))
         }
+        TopAppBar(
+            title = {},
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+            actions = {
+                Icon(
+                    imageVector = Icons.Outlined.Settings, // Ícone de lixeira
+                    contentDescription = "Seetings",
+                    modifier = Modifier
+                        .padding(end = 32.dp, top = 32.dp)
+                        .clickable {
+                            navHostController.navigate(WorkoutRoutes.Settings.route)
+                        },
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+            },
+            modifier = Modifier.background(Color.Blue)
+        )
         if (isLoading.value) {
             LoadingOverview()
         }

@@ -60,6 +60,4 @@ class ExerciseRepositoriesImpl @Inject constructor(private val exerciseNetwork: 
     override suspend fun deleteAllImagesFromWorkout(workoutId: String) {
         return exerciseNetwork.deleteAllImagesFromWorkout(workoutId)
     }
-
-
 }

@@ -43,5 +43,6 @@ sealed class WorkoutRoutes(
         }
     }
 
+    object Settings : WorkoutRoutes("settings_screen")
 
 }

@@ -26,6 +26,7 @@ class UpdateExerciseViewModel @Inject constructor(private val exerciseRepositori
 
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
     fun updateExercise(
         workoutId: String,
         exerciseId: String,
@@ -36,7 +37,6 @@ class UpdateExerciseViewModel @Inject constructor(private val exerciseRepositori
     {
         viewModelScope.launch {
             _isLoading.value = true
-            Log.d("TOME", "updateExercise: $workoutId, $exerciseId, $updatedName, $updatedImage, $updatedObservation")
             try {
                 val currentExercise = exercise.value
                 val imageUrl = if (updatedImage != null && updatedImage.toString().startsWith("content://")) {
@@ -57,9 +57,7 @@ class UpdateExerciseViewModel @Inject constructor(private val exerciseRepositori
                 _isNavigate.value = true
             } catch (e: Exception) {
                 _hasError.value = true
-                Log.e("UpdateExerciseViewModel", "Erro ao atualizar exercício", e)
             }
-
             _isLoading.value = false
         }
     }

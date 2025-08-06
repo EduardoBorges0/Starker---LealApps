@@ -27,41 +27,6 @@ class InsertExerciseViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun deleteExercise(workoutId: String, exerciseId: String) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                exerciseRepositories.deleteExercise(workoutId, exerciseId)
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun editExercise(workoutId: String, exerciseId: String, updatedExercise: ExerciseModel) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                exerciseRepositories.editExercise(workoutId, exerciseId, updatedExercise)
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-
-    fun getExerciseById(workoutId: String, exerciseId: String, onResult: (ExerciseModel?) -> Unit) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val exercise = exerciseRepositories.getExerciseById(workoutId, exerciseId)
-                onResult(exercise)
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
     fun createExerciseWithImage(
         workoutId: String,
         exercise: ExerciseModel,

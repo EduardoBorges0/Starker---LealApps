@@ -13,7 +13,7 @@
     <string name="error_title">Erro</string>
     <string name="error_generic">Algo deu errado!!</string>
     <string name="error_email_title">Erro no email</string>
-    <string name="error_email_bad_format">Email mal formatado!!</string>
+    <string name="error_email_bad_format">Email ou senha mal formatado!!</string>
     <string name="error_empty_fields_title">Campos vazios</string>
     <string name="error_empty_fields_msg">Preencha todos os campos!!</string>
     <string name="error_email_exists_msg">Esse email já existe!!</string>
@@ -44,12 +44,20 @@
     <!-- Exercise/Insert/Update -->
     <string name="add_exercise_title">Adicionar Exercício</string>
     <string name="update_exercise_title">Atualizar Exercício</string>
-    <string name="exercise_name_placeholder">Nome do exercício</string>
-    <string name="exercise_observation_placeholder">Observação</string>
-    <string name="select_image">Selecionar Imagem</string>
-    <string name="save_exercise">Salvar Exercício</string>
     <string name="selected_image_content_description">Imagem selecionada</string>
     <string name="error_fill_all_fields">Erros: Preencha todos os campos.</string>
     <string name="error_insert_exercise">Erro ao inserir exercício.</string>
+
+    <!-- FormExerciseView - Exercise -->
+    <string name="exercise_name_placeholder">Nome do exercício</string>
+    <string name="exercise_observation_placeholder">Observação</string>
+    <string name="select_image">Selecionar Imagem</string>
+    <string name="exercise_image">Imagem do exercício</string>
+    <string name="save_exercise">Salvar Exercício</string>
     <string name="error_no_changes_detected">Nenhuma alteração detectada.</string>
+
+    <!-- Settings -->
+    <string name="logout">Logout</string>
+    <string name="logout_description">Sair dessa conta</string>
+
 </resources>

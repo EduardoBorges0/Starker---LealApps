@@ -41,6 +41,7 @@ import com.app.starker.presentation.navigation.routes.auth.AuthRoutes
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes
 import androidx.compose.ui.res.stringResource
 import com.app.starker.R
+import com.app.starker.presentation.common.view.TopBarView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,24 +61,7 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
             }
         }
     }
-    TopAppBar(
-        title = {},
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.back_button_description),
-                modifier = Modifier
-                    .padding(start = 32.dp, top = 32.dp)
-                    .clickable {
-                        navHostController.popBackStack()
-                    }
-            )
-        },
-        modifier = Modifier.background(Color.Blue)
-    )
+    TopBarView(navHostController)
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

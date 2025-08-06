@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.app.starker.presentation.exercises.FormInsertExerciseView
 import androidx.core.net.toUri
 import com.app.starker.presentation.common.view.LoadingOverview
 import com.app.starker.presentation.common.view.TopBarView
 import com.app.starker.R
+import com.app.starker.presentation.exercises.FormExerciseView
 
 @Composable
 fun UpdateExerciseScreen(
@@ -62,7 +62,7 @@ fun UpdateExerciseScreen(
     }
 
     TopBarView(navHostController)
-    FormInsertExerciseView(
+    FormExerciseView(
         text = stringResource(R.string.update_exercise_title),
         name = name,
         onNameChange = { name = it },

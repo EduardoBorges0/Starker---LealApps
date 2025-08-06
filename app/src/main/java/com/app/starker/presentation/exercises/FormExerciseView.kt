@@ -3,6 +3,7 @@ package com.app.starker.presentation.exercises
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -17,7 +20,7 @@ import com.app.starker.R
 import com.app.starker.presentation.common.view.CustomTextField
 
 @Composable
-fun FormInsertExerciseView(
+fun FormExerciseView(
     text: String,
     name: String,
     onNameChange: (String) -> Unit,
@@ -76,6 +79,8 @@ fun FormInsertExerciseView(
                     modifier = Modifier
                         .size(120.dp)
                         .align(Alignment.CenterHorizontally)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
             }
         }
@@ -88,7 +93,7 @@ fun FormInsertExerciseView(
                 .align(Alignment.BottomCenter),
             shape = RoundedCornerShape(0.dp)
         ) {
-            Text("Salvar Exercício", color = MaterialTheme.colorScheme.secondary)
+            Text(stringResource(R.string.save_exercise), color = MaterialTheme.colorScheme.secondary)
         }
 
         errorMessage?.let {

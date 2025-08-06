@@ -71,7 +71,7 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
             TopAppBar(
                 title = {
                     Text(
-                        workoutById.value?.name ?: stringResource(R.string.no_name),
+                        workoutById.value?.name ?: "Sem nome",
                         modifier = Modifier.padding(start = 32.dp, top = 32.dp)
                     )
                 },
@@ -105,7 +105,7 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
             Spacer(modifier = Modifier.height(50.dp))
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
-                    workoutById.value?.description ?: stringResource(R.string.no_description),
+                    workoutById.value?.description ?: "Sem descrição",
                     modifier = Modifier.padding(horizontal = 40.dp)
                 )
                 Icon(
@@ -155,7 +155,7 @@ fun ShowWorkoutDetailsScreen(navHostController: NavHostController, workoutId: St
                 .padding(bottom = 50.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text(stringResource(R.string.add_exercise))
+            Text("Adicionar Exercício")
         }
         AlertDialogWorkoutDetails(
             isDeleteWorkout = isDeleteWorkout,

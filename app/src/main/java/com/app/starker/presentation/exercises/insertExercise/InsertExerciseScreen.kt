@@ -15,8 +15,7 @@ import androidx.navigation.NavHostController
 import com.app.starker.data.model.ExerciseModel
 import com.app.starker.presentation.common.view.LoadingOverview
 import com.app.starker.presentation.common.view.TopBarView
-import com.app.starker.presentation.exercises.FormInsertExerciseView
-import com.app.starker.presentation.exercises.insertExercise.InsertExerciseViewModel
+import com.app.starker.presentation.exercises.FormExerciseView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,10 +45,9 @@ fun InsertExerciseScreen(
         }
     }
 
-
     Box(modifier = Modifier.fillMaxSize()) {
         TopBarView(navHostController)
-        FormInsertExerciseView(
+        FormExerciseView(
             text = "Novo Exercício",
             name = name,
             onNameChange = { name = it },
@@ -60,9 +58,7 @@ fun InsertExerciseScreen(
             onSave = {
                 if (name.isBlank() || observation.isBlank() || imageUri == null) {
                     errorMessage = "Erros: Preencha todos os campos."
-                    Log.d("InsertExerciseViewModel", "Exercise created with ID: ")
                 } else {
-
                     viewModel.createExerciseWithImage(
                         workoutId = workoutId,
                         exercise = ExerciseModel(

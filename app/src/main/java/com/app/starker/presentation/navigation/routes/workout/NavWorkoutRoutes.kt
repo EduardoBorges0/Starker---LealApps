@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes.InsertWorkoutImage
 import com.app.starker.presentation.navigation.routes.workout.WorkoutRoutes.ShowWorkout
+import com.app.starker.presentation.settings.SettingsScreen
 import com.app.starker.presentation.workouts.editWorkout.UpdateWorkoutScreen
 import com.app.starker.presentation.workouts.insertWorkout.InsertWorkoutScreen
 import com.app.starker.presentation.workouts.showWorkout.ShowWorkoutScreen
@@ -86,5 +87,20 @@ fun NavGraphBuilder.NavWorkoutRoutes(navHostController: NavHostController) {
             URLDecoder.decode(backStackEntry.arguments?.getString("date") ?: "", "UTF-8")
 
         UpdateWorkoutScreen(navHostController, workoutId, workoutName, workoutDescription, date)
+    }
+    composable(
+        route = WorkoutRoutes.Settings.route,
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                tween(500)
+            )
+        }, exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                tween(500)
+            )
+        }) { backStackEntry ->
+        SettingsScreen(navHostController)
     }
 }
