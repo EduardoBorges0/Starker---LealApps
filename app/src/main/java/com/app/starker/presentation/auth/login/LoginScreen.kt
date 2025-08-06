@@ -90,14 +90,6 @@ fun LoginScreen(navHostController: NavHostController, loginViewModel: LoginViewM
                 },
                 placeholder = stringResource(R.string.password_placeholder)
             )
-            Text(
-                stringResource(R.string.forgot_password),
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 40.dp)
-                    .clickable {
-                        navHostController.navigate(AuthRoutes.LoginScreen.route)
-                    }
-            )
             Spacer(modifier = Modifier.height(40.dp))
             Button(
                 onClick = {
