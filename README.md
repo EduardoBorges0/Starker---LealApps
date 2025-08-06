@@ -22,7 +22,7 @@
 
 - [Coil](https://coil-kt.github.io/coil/) – carregamento eficiente de imagens
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) – DI moderno e otimizado
-- [KAPT](https://kotlinlang.org/docs/kapt.html) – processadores de anotação
+- [KSP](https://kotlinlang.org/docs/ksp-overview.html) – processadores de anotação
 
 ---
 
