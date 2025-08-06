@@ -42,7 +42,7 @@ A autenticação é realizada por **Firebase Auth** .
 ## 🚀 Como Executar o Projeto
 
 ### 1. 📲 Instalação via APK
-A maneira mais rápida de experimentar o app é baixando o **APK** disponível na aba de [Releases do GitHub](https://github.com/seu-usuario/seu-repositorio/releases).
+A maneira mais rápida de experimentar o app é baixando o **APK** disponível na aba de [Releases do GitHub](https://github.com/EduardoBorges0/Starker---LealApps/releases).
 
 ### 2. 🧑‍💻 Rodando no Android Studio
 Caso prefira rodar o projeto localmente:
